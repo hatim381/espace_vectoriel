@@ -1,4 +1,4 @@
-# Algèbre Linéaire - Le Guide d'Insiyah
+# Algèbre Linéaire 
 
 Un guide éducatif interactif d'algèbre linéaire en français, conçu pour rendre les concepts mathématiques accessible et engageant.
 
@@ -31,11 +31,11 @@ Ce projet est un tutoriel complet d'algèbre linéaire basé sur du HTML et CSS,
 
 ## 🚀 Utilisation
 
-Ouvrez simplement le fichier `algebre_insiyah.html` dans votre navigateur web :
+Ouvrez simplement le fichier `algebre.html` dans votre navigateur web :
 
 ```bash
 # Sous Windows
-start algebre_insiyah.html
+start algebre.html
 
 # Ou simplement double-cliquez sur le fichier
 ```
@@ -65,7 +65,7 @@ Le guide s'adapte automatiquement à tous les appareils :
 
 ## 📝 Structure du fichier
 
-Le fichier `algebre_insiyah.html` contient :
+Le fichier `algebre.html` contient :
 - Tous les styles CSS intégrés
 - Tout le contenu HTML
 - Les scripts JavaScript pour l'interactivité
