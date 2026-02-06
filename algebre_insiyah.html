@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algèbre Linéaire - Le Guide d'Insiyah</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700;900&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fef9f0;--card:#fff;--ink:#2c1810;--ink-light:#6b5344;--ink-muted:#9a8578;--accent:#e85d26;--accent-soft:#fff0ea;--accent-glow:#ff7b47;--teal:#0d8a72;--teal-soft:#e6f7f3;--blue:#2563eb;--blue-soft:#eff4ff;--purple:#7c3aed;--purple-soft:#f3eeff;--green:#16a34a;--green-soft:#ecfdf0;--red:#dc2626;--red-soft:#fef2f2;--yellow:#f59e0b;--yellow-soft:#fffbeb;--border:#efe6dc;--shadow:rgba(44,24,16,.06);--shadow-md:rgba(44,24,16,.1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;-webkit-font-smoothing:antialiased}
+header{background:linear-gradient(160deg,#2c1810 0%,#4a2c1a 40%,#6b3a20 100%);color:#fff;padding:3.5rem 2rem 3rem;position:relative;overflow:hidden}
+header::before{content:'';position:absolute;top:-60%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(232,93,38,.15) 0%,transparent 70%);border-radius:50%}
+.header-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.header-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);padding:6px 14px;border-radius:20px;font-size:.8rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1rem;border:1px solid rgba(255,255,255,.15)}
+h1{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:900;line-height:1.15;margin-bottom:.6rem}
+h1 span{color:var(--accent-glow)}
+.header-sub{font-size:1.1rem;opacity:.85;max-width:550px;line-height:1.6}
+nav{background:var(--card);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px var(--shadow)}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;padding:0 1rem}
+.nav-btn{flex:1;padding:1rem .5rem;background:none;border:none;border-bottom:3px solid transparent;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;color:var(--ink-muted);cursor:pointer;transition:all .25s ease;display:flex;align-items:center;justify-content:center;gap:8px}
+.nav-btn:hover{color:var(--accent)}.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+.container{max-width:900px;margin:0 auto;padding:0 1.5rem}
+.content-section{display:none;padding:2.5rem 0 4rem;animation:fadeUp .4s ease}.content-section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.lesson{background:var(--card);border-radius:16px;padding:2.5rem;margin-bottom:2rem;box-shadow:0 2px 12px var(--shadow);border:1px solid var(--border)}
+.lesson-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem}
+.tag-concept{background:var(--blue-soft);color:var(--blue)}.tag-theorem{background:var(--purple-soft);color:var(--purple)}.tag-example{background:var(--green-soft);color:var(--green)}.tag-warning{background:var(--yellow-soft);color:#b45309}
+.lesson h2{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:700;margin-bottom:1rem;line-height:1.3}
+.lesson h3{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;margin:2rem 0 .8rem}
+.lesson p{color:var(--ink-light);margin-bottom:1rem}
+.analogy{background:linear-gradient(135deg,#fff8f0,#fff3e6);border:2px solid #fde0c2;border-radius:14px;padding:1.5rem 1.8rem;margin:1.5rem 0;position:relative}
+.analogy::before{content:'💡';position:absolute;top:-14px;left:18px;background:var(--bg);padding:2px 6px;font-size:1.3rem}
+.analogy-title{font-weight:700;color:var(--accent);margin-bottom:.4rem;font-size:.95rem}
+.analogy p{color:var(--ink-light);margin:0}
+.formula-box{background:linear-gradient(135deg,#f8f5ff,#f0ecff);border:2px solid #e0d8ff;border-radius:14px;padding:1.5rem 1.8rem;margin:1.5rem 0;text-align:center}
+.formula-box .formula-label{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--purple);margin-bottom:.6rem}
+.formula-box .formula-content{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--ink)}
+.schema{background:var(--card);border:2px solid var(--border);border-radius:14px;padding:1.5rem;margin:1.5rem 0;display:flex;flex-direction:column;align-items:center}
+.schema-title{font-weight:700;font-size:.85rem;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem;text-align:center}
+.schema svg{max-width:100%;height:auto}
+.example{background:var(--green-soft);border:2px solid #bbf0cd;border-radius:14px;padding:1.8rem;margin:1.5rem 0;position:relative}
+.example::before{content:'✏️';position:absolute;top:-14px;left:18px;background:var(--bg);padding:2px 6px;font-size:1.3rem}
+.example-title{font-weight:700;color:var(--green);margin-bottom:.8rem;font-size:1rem}
+.example-step{display:flex;gap:12px;margin:.8rem 0;align-items:flex-start}
+.step-dot{flex-shrink:0;width:26px;height:26px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;margin-top:2px}
+.step-text{color:var(--ink-light);font-size:.95rem}.step-text strong{color:var(--ink)}
+.step-math{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.7);padding:2px 8px;border-radius:6px;font-size:.9rem;display:inline-block;margin-top:4px}
+.key-point{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;padding:1.2rem 1.5rem;margin:1.2rem 0}
+.key-point strong{color:var(--accent)}
+.remember{background:linear-gradient(135deg,var(--teal-soft),#d5f5ee);border:2px solid #a7e8d8;border-radius:14px;padding:1.5rem 1.8rem;margin:1.5rem 0;position:relative}
+.remember::before{content:'🧠';position:absolute;top:-14px;left:18px;background:var(--bg);padding:2px 6px;font-size:1.3rem}
+.remember-title{font-weight:700;color:var(--teal);margin-bottom:.4rem}
+.qcm-score-bar{display:flex;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.score-pill{flex:1;min-width:180px;background:linear-gradient(160deg,#2c1810,#4a2c1a);color:#fff;padding:1.5rem;border-radius:14px;text-align:center}
+.score-pill .score-num{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:900}
+.score-pill .score-label{opacity:.75;font-size:.85rem;margin-top:4px}
+.qcm-card{background:var(--card);border-radius:16px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 2px 12px var(--shadow);border:1px solid var(--border);border-left:5px solid var(--blue)}
+.qcm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.qcm-num{font-family:'Fraunces',serif;font-weight:700;font-size:1.2rem}
+.qcm-diff{padding:4px 12px;border-radius:8px;font-size:.78rem;font-weight:700}
+.diff-easy{background:#d1fae5;color:#065f46}.diff-med{background:#fed7aa;color:#9a3412}.diff-hard{background:#fecaca;color:#991b1b}
+.qcm-question{font-size:1.05rem;font-weight:500;margin-bottom:1.2rem;line-height:1.6}
+.qcm-options{display:flex;flex-direction:column;gap:.6rem}
+.qcm-option{background:#fafaf7;border:2px solid var(--border);border-radius:10px;padding:.9rem 1.2rem;cursor:pointer;transition:all .2s ease;display:flex;align-items:center;gap:10px}
+.qcm-option:hover{border-color:var(--blue);background:var(--blue-soft)}
+.qcm-option input[type="radio"]{width:18px;height:18px;cursor:pointer;accent-color:var(--blue)}
+.qcm-option label{cursor:pointer;flex:1;font-size:.95rem}
+.qcm-option.correct{background:#d1fae5;border-color:var(--green)}
+.qcm-option.incorrect{background:#fee2e2;border-color:var(--red);animation:shake .4s ease}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.qcm-submit{width:100%;padding:.9rem;margin-top:1rem;background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .25s ease}
+.qcm-submit:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,.3)}
+.qcm-submit:disabled{opacity:.5;cursor:not-allowed}
+.qcm-feedback{display:none;margin-top:1rem;padding:1.2rem;border-radius:10px}
+.qcm-feedback.show{display:block;animation:fadeUp .3s ease}
+.qcm-feedback.correct{background:var(--green-soft);border-left:4px solid var(--green)}
+.qcm-feedback.incorrect{background:var(--red-soft);border-left:4px solid var(--red)}
+.qcm-feedback h4{margin-bottom:.4rem;font-size:1.05rem}
+.qcm-feedback.correct h4{color:var(--green)}.qcm-feedback.incorrect h4{color:var(--red)}
+.qcm-feedback p{color:var(--ink-light);font-size:.92rem;margin:0}
+.exercise-card{background:var(--card);border-radius:16px;padding:2rem;margin-bottom:2rem;box-shadow:0 2px 12px var(--shadow);border:1px solid var(--border);border-left:5px solid var(--accent)}
+.exercise-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:2px solid var(--border);flex-wrap:wrap;gap:.5rem}
+.exercise-num{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700}
+.exercise-time{background:var(--accent);color:#fff;padding:4px 14px;border-radius:20px;font-size:.82rem;font-weight:600}
+.exercise-statement{background:var(--yellow-soft);border-left:4px solid var(--yellow);padding:1.2rem 1.5rem;border-radius:0 10px 10px 0;margin-bottom:1rem;color:var(--ink-light);line-height:1.7}
+.solution-toggle{width:100%;padding:.9rem;margin-top:.5rem;background:linear-gradient(135deg,var(--accent),var(--accent-glow));color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:all .25s ease}
+.solution-toggle:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(232,93,38,.3)}
+.solution{display:none;margin-top:1.2rem;padding:1.5rem;background:var(--green-soft);border:2px solid #bbf0cd;border-radius:12px}
+.solution.active{display:block;animation:fadeUp .4s ease}
+.solution h4{color:var(--green);margin-bottom:.8rem;font-size:1.1rem}
+.sol-step{display:flex;gap:12px;margin:1rem 0;align-items:flex-start}
+.sol-num{flex-shrink:0;width:28px;height:28px;background:var(--teal);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700}
+.sol-content{color:var(--ink-light);font-size:.95rem}.sol-content strong{color:var(--ink)}
+.sol-math{font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.7);padding:3px 10px;border-radius:6px;font-size:.88rem;display:inline-block;margin:4px 0}
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.toc-item{background:var(--card);border:2px solid var(--border);border-radius:12px;padding:1.2rem;cursor:pointer;transition:all .25s ease;text-align:center}
+.toc-item:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 8px 20px var(--shadow-md)}
+.toc-icon{font-size:2rem;margin-bottom:.5rem}.toc-label{font-weight:600;font-size:.9rem}.toc-desc{font-size:.78rem;color:var(--ink-muted);margin-top:4px}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;margin:1.5rem 0;border-radius:12px;overflow:hidden;border:2px solid var(--border)}
+.compare-table th{background:linear-gradient(160deg,#2c1810,#4a2c1a);color:#fff;padding:1rem;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.compare-table td{padding:.9rem 1rem;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--ink-light)}
+.compare-table tr:nth-child(even) td{background:#fdf9f4}.compare-table tr:last-child td{border-bottom:none}
+@media(max-width:640px){.lesson,.qcm-card,.exercise-card{padding:1.5rem}header{padding:2rem 1.5rem}.nav-btn{font-size:.82rem;padding:.8rem .3rem}.formula-box .formula-content{font-size:1.1rem}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-inner">
+<div class="header-badge">📖 Guide personnel</div>
+<h1>Algèbre Linéaire<br><span>Le guide d'Insiyah</span></h1>
+<p class="header-sub">Un tutoriel pas-à-pas avec des explications simples, des exemples concrets et des schémas visuels.</p>
+</div>
+</header>
+
+<nav><div class="nav-inner">
+<button class="nav-btn active" onclick="showSection('cours',this)"><span>📖</span> Comprendre</button>
+<button class="nav-btn" onclick="showSection('qcm',this)"><span>🎯</span> S'entraîner</button>
+<button class="nav-btn" onclick="showSection('exercices',this)"><span>🧩</span> Résoudre</button>
+</div></nav>
+
+<div class="container">
+
+<!-- ══════ COURS ══════ -->
+<section id="cours" class="content-section active">
+
+<div class="toc">
+<div class="toc-item" onclick="scrollToLesson('lesson-applin')"><div class="toc-icon">🔄</div><div class="toc-label">Application linéaire</div><div class="toc-desc">C'est quoi et à quoi ça sert ?</div></div>
+<div class="toc-item" onclick="scrollToLesson('lesson-ker')"><div class="toc-icon">🎯</div><div class="toc-label">Noyau (Ker)</div><div class="toc-desc">Qui s'écrase à zéro ?</div></div>
+<div class="toc-item" onclick="scrollToLesson('lesson-im')"><div class="toc-icon">📡</div><div class="toc-label">Image (Im)</div><div class="toc-desc">Qu'est-ce qu'on peut atteindre ?</div></div>
+<div class="toc-item" onclick="scrollToLesson('lesson-rang')"><div class="toc-icon">⚖️</div><div class="toc-label">Théorème du rang</div><div class="toc-desc">La formule magique</div></div>
+<div class="toc-item" onclick="scrollToLesson('lesson-inj')"><div class="toc-icon">🔍</div><div class="toc-label">Inj / Surj / Bij</div><div class="toc-desc">Rien ne se perd, tout arrive</div></div>
+<div class="toc-item" onclick="scrollToLesson('lesson-sev')"><div class="toc-icon">📐</div><div class="toc-label">Sous-espaces</div><div class="toc-desc">Les sous-ensembles bien rangés</div></div>
+</div>
+
+<!-- LEÇON 1 -->
+<div class="lesson" id="lesson-applin">
+<div class="lesson-tag tag-concept">Concept clé</div>
+<h2>🔄 C'est quoi une application linéaire ?</h2>
+<p>Imagine une <strong>machine</strong> qui prend des vecteurs en entrée et produit des vecteurs en sortie. Cette machine s'appelle <strong>f</strong>.</p>
+<p>Pour que cette machine soit une <strong>application linéaire</strong>, elle doit respecter <strong>2 règles simples</strong> :</p>
+
+<div class="analogy">
+<div class="analogy-title">Imagine une photocopieuse magique</div>
+<p><strong>Règle 1 — Additivité :</strong> Si tu mets 2 feuilles ensemble dans la machine, le résultat est le même que si tu les mettais une par une et que tu combinais les résultats.<br><br>
+<strong>Règle 2 — Homogénéité :</strong> Si tu agrandis une feuille ×3 AVANT la machine, c'est pareil que la mettre d'abord et agrandir le résultat ×3.</p>
+</div>
+
+<div class="formula-box"><div class="formula-label">Règle 1 : Additivité</div><div class="formula-content">f(u + v) = f(u) + f(v)</div></div>
+<div class="formula-box"><div class="formula-label">Règle 2 : Homogénéité</div><div class="formula-content">f(k × u) = k × f(u)</div></div>
+
+<div class="remember">
+<div class="remember-title">Version raccourcie (les 2 en 1)</div>
+<p style="color:var(--ink-light)">On peut combiner en une seule :<br><strong style="color:var(--ink)">f(a × u + b × v) = a × f(u) + b × f(v)</strong><br>La machine respecte les combinaisons.</p>
+</div>
+
+<div class="schema">
+<div class="schema-title">Schéma : comment fonctionne une application linéaire</div>
+<svg width="520" height="200" viewBox="0 0 520 200">
+<ellipse cx="110" cy="100" rx="85" ry="75" fill="#eff4ff" stroke="#2563eb" stroke-width="2"/>
+<text x="110" y="28" text-anchor="middle" font-family="Fraunces" font-size="14" font-weight="700" fill="#2563eb">Espace E (départ)</text>
+<circle cx="80" cy="80" r="6" fill="#2563eb"/><text x="68" y="77" font-family="DM Sans" font-size="11" fill="#2563eb" font-weight="600">u</text>
+<circle cx="130" cy="110" r="6" fill="#2563eb"/><text x="140" y="107" font-family="DM Sans" font-size="11" fill="#2563eb" font-weight="600">v</text>
+<circle cx="95" cy="140" r="6" fill="#2563eb"/><text x="83" y="155" font-family="DM Sans" font-size="11" fill="#2563eb" font-weight="600">w</text>
+<defs><marker id="ao" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#e85d26"/></marker></defs>
+<line x1="200" y1="80" x2="300" y2="80" stroke="#e85d26" stroke-width="3" marker-end="url(#ao)"/>
+<line x1="200" y1="110" x2="300" y2="110" stroke="#e85d26" stroke-width="3" marker-end="url(#ao)"/>
+<line x1="200" y1="140" x2="300" y2="130" stroke="#e85d26" stroke-width="3" marker-end="url(#ao)"/>
+<rect x="235" y="50" width="36" height="26" rx="8" fill="#e85d26"/><text x="253" y="68" text-anchor="middle" font-family="Fraunces" font-size="13" font-weight="700" fill="#fff">f</text>
+<ellipse cx="400" cy="100" rx="85" ry="75" fill="#ecfdf0" stroke="#16a34a" stroke-width="2"/>
+<text x="400" y="28" text-anchor="middle" font-family="Fraunces" font-size="14" font-weight="700" fill="#16a34a">Espace F (arrivée)</text>
+<circle cx="370" cy="80" r="6" fill="#16a34a"/><text x="380" y="74" font-family="DM Sans" font-size="11" fill="#16a34a" font-weight="600">f(u)</text>
+<circle cx="420" cy="110" r="6" fill="#16a34a"/><text x="432" y="106" font-family="DM Sans" font-size="11" fill="#16a34a" font-weight="600">f(v)</text>
+<circle cx="390" cy="133" r="6" fill="#16a34a"/><text x="402" y="148" font-family="DM Sans" font-size="11" fill="#16a34a" font-weight="600">f(w)</text>
+</svg>
+</div>
+
+<div class="example">
+<div class="example-title">Exemple concret : on vérifie que f est linéaire</div>
+<p style="margin-bottom:.8rem;color:var(--ink-light)">Soit <strong style="color:var(--ink)">f(x, y) = (2x + y, x - y)</strong>. Vérifions :</p>
+<div class="example-step"><div class="step-dot">1</div><div class="step-text">Prenons <strong>u = (1, 3)</strong> et <strong>v = (2, 1)</strong><br><span class="step-math">u + v = (3, 4)</span></div></div>
+<div class="example-step"><div class="step-dot">2</div><div class="step-text">Calculons <strong>f(u + v)</strong> = f(3, 4) :<br><span class="step-math">f(3, 4) = (2×3 + 4, 3 - 4) = (10, -1)</span></div></div>
+<div class="example-step"><div class="step-dot">3</div><div class="step-text">Calculons <strong>f(u) + f(v)</strong> séparément :<br><span class="step-math">f(1,3) = (5, -2)</span> et <span class="step-math">f(2,1) = (5, 1)</span><br><span class="step-math">(5, -2) + (5, 1) = (10, -1) ✓ Identique !</span></div></div>
+<div class="example-step"><div class="step-dot">4</div><div class="step-text"><strong>Les résultats sont les mêmes !</strong> On peut vérifier pareil pour l'homogénéité. Donc f est linéaire.</div></div>
+</div>
+</div>
+
+<!-- LEÇON 2 : NOYAU -->
+<div class="lesson" id="lesson-ker">
+<div class="lesson-tag tag-concept">Concept clé</div>
+<h2>🎯 Le Noyau (Ker f) : qui s'écrase à zéro ?</h2>
+<p>Le <strong>noyau</strong> de f, c'est l'ensemble de <strong>tous les vecteurs qui donnent zéro</strong> quand on les passe dans f.</p>
+
+<div class="analogy">
+<div class="analogy-title">Imagine un filtre à café</div>
+<p>Le café traverse, mais le marc reste dedans. Le <strong>noyau</strong>, c'est comme le marc : tous les éléments que la machine f « efface » et transforme en zéro. Plus le filtre retient de choses, plus le noyau est grand.</p>
+</div>
+
+<div class="formula-box"><div class="formula-label">Définition du noyau</div><div class="formula-content">Ker(f) = { x dans E tel que f(x) = 0 }</div></div>
+
+<div class="schema">
+<div class="schema-title">Schéma : le noyau = ce qui va vers zéro</div>
+<svg width="520" height="200" viewBox="0 0 520 200">
+<ellipse cx="130" cy="100" rx="95" ry="78" fill="#eff4ff" stroke="#2563eb" stroke-width="2"/>
+<text x="130" y="24" text-anchor="middle" font-family="Fraunces" font-size="14" font-weight="700" fill="#2563eb">Espace E</text>
+<ellipse cx="115" cy="120" rx="38" ry="32" fill="#fee2e2" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,3"/>
+<text x="115" y="158" text-anchor="middle" font-family="DM Sans" font-size="11" font-weight="700" fill="#dc2626">Ker(f)</text>
+<circle cx="155" cy="65" r="5" fill="#2563eb"/>
+<circle cx="105" cy="115" r="5" fill="#dc2626"/><circle cx="125" cy="130" r="5" fill="#dc2626"/>
+<defs><marker id="ar" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#e85d26"/></marker>
+<marker id="ard" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#dc2626"/></marker></defs>
+<line x1="230" y1="68" x2="310" y2="72" stroke="#e85d26" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="230" y1="120" x2="310" y2="138" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ard)"/>
+<line x1="230" y1="132" x2="310" y2="140" stroke="#dc2626" stroke-width="2.5" stroke-dasharray="6,3" marker-end="url(#ard)"/>
+<text x="270" y="55" text-anchor="middle" font-family="Fraunces" font-size="13" font-weight="700" fill="#e85d26">f</text>
+<ellipse cx="400" cy="100" rx="85" ry="78" fill="#ecfdf0" stroke="#16a34a" stroke-width="2"/>
+<text x="400" y="24" text-anchor="middle" font-family="Fraunces" font-size="14" font-weight="700" fill="#16a34a">Espace F</text>
+<circle cx="375" cy="72" r="5" fill="#16a34a"/><text x="388" y="70" font-family="DM Sans" font-size="10" fill="#16a34a" font-weight="600">f(a)</text>
+<circle cx="380" cy="140" r="9" fill="#dc2626" opacity=".2"/><circle cx="380" cy="140" r="5" fill="#dc2626"/>
+<text x="396" y="144" font-family="Fraunces" font-size="14" font-weight="700" fill="#dc2626">0</text>
+</svg>
+</div>
+
+<div class="key-point"><strong>A retenir :</strong> Le noyau est toujours un sous-espace vectoriel de E. Le vecteur nul (0) est toujours dans le noyau car f(0) = 0.</div>
+
+<div class="example">
+<div class="example-title">Exemple : trouver le noyau</div>
+<p style="margin-bottom:.8rem;color:var(--ink-light)">Soit <strong style="color:var(--ink)">f(x, y) = (x + y, 2x + 2y)</strong>. Trouvons Ker(f) :</p>
+<div class="example-step"><div class="step-dot">1</div><div class="step-text">On cherche (x, y) tels que <strong>f(x, y) = (0, 0)</strong></div></div>
+<div class="example-step"><div class="step-dot">2</div><div class="step-text">Système : <span class="step-math">x + y = 0</span> et <span class="step-math">2x + 2y = 0</span> (c'est la même !)</div></div>
+<div class="example-step"><div class="step-dot">3</div><div class="step-text">Donc <strong>y = -x</strong>. Le noyau = tous les (x, -x) = x × (1, -1)<br><span class="step-math">Ker(f) = Vect{(1, -1)}</span> — dimension = 1</div></div>
+</div>
+</div>
+
+<!-- LEÇON 3 : IMAGE -->
+<div class="lesson" id="lesson-im">
+<div class="lesson-tag tag-concept">Concept clé</div>
+<h2>📡 L'Image (Im f) : qu'est-ce qu'on peut atteindre ?</h2>
+<p>L'<strong>image</strong> de f = l'ensemble de <strong>tous les résultats possibles</strong> quand on passe tous les vecteurs de E dans f.</p>
+
+<div class="analogy">
+<div class="analogy-title">Imagine un projecteur</div>
+<p>Tu as des objets 3D (espace E) et tu projettes leur ombre sur un mur (espace F). L'<strong>image</strong> = la zone du mur éclairée. Certaines parties du mur restent peut-être dans le noir (si f n'est pas surjective).</p>
+</div>
+
+<div class="formula-box"><div class="formula-label">Définition de l'image</div><div class="formula-content">Im(f) = { f(x) quand x parcourt E }</div></div>
+
+<div class="schema">
+<div class="schema-title">Schéma : l'image = la zone atteinte dans F</div>
+<svg width="520" height="200" viewBox="0 0 520 200">
+<ellipse cx="130" cy="100" rx="95" ry="78" fill="#eff4ff" stroke="#2563eb" stroke-width="2"/>
+<text x="130" y="24" text-anchor="middle" font-family="Fraunces" font-size="14" font-weight="700" fill="#2563eb">Espace E</text>
+<circle cx="100" cy="75" r="5" fill="#2563eb"/><circle cx="140" cy="95" r="5" fill="#2563eb"/><circle cx="120" cy="125" r="5" fill="#2563eb"/>
+<defs><marker id="a3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#e85d26"/></marker></defs>
+<line x1="230" y1="78" x2="310" y2="85" stroke="#e85d26" stroke-width="2" marker-end="url(#a3)"/>
+<line x1="230" y1="98" x2="310" y2="100" stroke="#e85d26" stroke-width="2" marker-end="url(#a3)"/>
+<line x1="230" y1="125" x2="310" y2="115" stroke="#e85d26" stroke-width="2" marker-end="url(#a3)"/>
+<text x="270" y="68" text-anchor="middle" font-family="Fraunces" font-size="13" font-weight="700" fill="#e85d26">f</text>
+<ellipse cx="400" cy="100" rx="85" ry="78" fill="#f8f8f8" stroke="#16a34a" stroke-width="2"/>
+<text x="400" y="24" text-anchor="middle" font-family="Fraunces" font-size="14" font-weight="700" fill="#16a34a">Espace F</text>
+<ellipse cx="385" cy="100" rx="48" ry="38" fill="#d1fae5" stroke="#16a34a" stroke-width="2"/>
+<text x="385" y="95" text-anchor="middle" font-family="DM Sans" font-size="12" font-weight="700" fill="#16a34a">Im(f)</text>
+<circle cx="375" cy="108" r="4" fill="#16a34a"/><circle cx="395" cy="98" r="4" fill="#16a34a"/>
+<text x="440" y="155" font-family="DM Sans" font-size="10" fill="#9a8578" font-style="italic">zone non</text>
+<text x="440" y="167" font-family="DM Sans" font-size="10" fill="#9a8578" font-style="italic">atteinte</text>
+</svg>
+</div>
+
+<div class="key-point"><strong>A retenir :</strong> L'image est toujours un sous-espace vectoriel de F. Sa dimension s'appelle le <strong>rang</strong> de f.</div>
+</div>
+
+<!-- LEÇON 4 : RANG -->
+<div class="lesson" id="lesson-rang">
+<div class="lesson-tag tag-theorem">Théorème fondamental</div>
+<h2>⚖️ Le Théorème du Rang : la formule magique</h2>
+<p>C'est LE théorème le plus important du chapitre :</p>
+
+<div class="formula-box"><div class="formula-label">Théorème du rang</div><div class="formula-content">dim(E) = dim(Ker f) + dim(Im f)</div></div>
+
+<div class="analogy">
+<div class="analogy-title">Imagine un tuyau d'arrosage</div>
+<p>L'eau qui entre (dim E) se divise : une partie <strong>fuit par des trous</strong> (le noyau) et une partie <strong>arrive au bout</strong> (l'image). Eau totale = fuites + eau qui arrive.</p>
+</div>
+
+<div class="schema">
+<div class="schema-title">Schéma : tout se répartit entre noyau et image</div>
+<svg width="520" height="160" viewBox="0 0 520 160">
+<rect x="40" y="15" width="440" height="40" rx="10" fill="#eff4ff" stroke="#2563eb" stroke-width="2"/>
+<text x="260" y="42" text-anchor="middle" font-family="Fraunces" font-size="15" font-weight="700" fill="#2563eb">dim(E) = dimension totale</text>
+<text x="260" y="80" text-anchor="middle" font-family="DM Sans" font-size="22" fill="#6b5344">↓</text>
+<text x="260" y="96" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#6b5344" font-weight="600">se divise en</text>
+<rect x="40" y="108" width="210" height="40" rx="10" fill="#fee2e2" stroke="#dc2626" stroke-width="2"/>
+<text x="145" y="134" text-anchor="middle" font-family="Fraunces" font-size="13" font-weight="700" fill="#dc2626">dim(Ker f) = pertes</text>
+<text x="262" y="134" text-anchor="middle" font-family="Fraunces" font-size="20" font-weight="900" fill="#e85d26">+</text>
+<rect x="280" y="108" width="200" height="40" rx="10" fill="#d1fae5" stroke="#16a34a" stroke-width="2"/>
+<text x="380" y="134" text-anchor="middle" font-family="Fraunces" font-size="13" font-weight="700" fill="#16a34a">dim(Im f) = arrivées</text>
+</svg>
+</div>
+
+<div class="example">
+<div class="example-title">Exemple : utiliser le théorème du rang</div>
+<p style="margin-bottom:.8rem;color:var(--ink-light)">Soit <strong style="color:var(--ink)">f : R3 vers R2</strong>, et f est surjective.</p>
+<div class="example-step"><div class="step-dot">1</div><div class="step-text">f surjective signifie Im(f) = R2, donc <span class="step-math">dim(Im f) = 2</span></div></div>
+<div class="example-step"><div class="step-dot">2</div><div class="step-text">Théorème du rang : <span class="step-math">3 = dim(Ker f) + 2</span></div></div>
+<div class="example-step"><div class="step-dot">3</div><div class="step-text">Donc <strong>dim(Ker f) = 1</strong> — une "direction" se perd.</div></div>
+</div>
+
+<div class="remember">
+<div class="remember-title">Quand l'utiliser ?</div>
+<p style="color:var(--ink-light)">Presque toujours ! Dès qu'on connait 2 des 3 valeurs, on trouve la 3ème.</p>
+</div>
+</div>
+
+<!-- LEÇON 5 : INJ/SURJ/BIJ -->
+<div class="lesson" id="lesson-inj">
+<div class="lesson-tag tag-concept">Concept clé</div>
+<h2>🔍 Injectivité, Surjectivité, Bijectivité</h2>
+<p>Ces trois notions décrivent comment f « transfère » l'information :</p>
+
+<table class="compare-table">
+<thead><tr><th>Propriété</th><th>En langage simple</th><th>Comment vérifier ?</th></tr></thead>
+<tbody>
+<tr><td><strong>Injective</strong></td><td>Deux entrées différentes → deux sorties différentes. <strong>Rien ne se mélange.</strong></td><td><span class="step-math">Ker(f) = {0}</span></td></tr>
+<tr><td><strong>Surjective</strong></td><td>Tout élément de F est atteint. <strong>Rien n'est oublié.</strong></td><td><span class="step-math">Im(f) = F</span></td></tr>
+<tr><td><strong>Bijective</strong></td><td>Les deux à la fois. <strong>Correspondance parfaite.</strong></td><td><span class="step-math">Ker(f)={0} ET Im(f)=F</span></td></tr>
+</tbody></table>
+
+<div class="analogy">
+<div class="analogy-title">Analogie : une salle de classe</div>
+<p><strong>Injective :</strong> Chaque élève a sa propre chaise. (Certaines chaises restent vides.)<br><br>
+<strong>Surjective :</strong> Toutes les chaises sont occupées. (Certaines chaises ont 2 élèves.)<br><br>
+<strong>Bijective :</strong> Chaque élève a sa chaise, chaque chaise a son élève. Parfait !</p>
+</div>
+
+<div class="schema">
+<div class="schema-title">Les 3 cas en images</div>
+<svg width="520" height="360" viewBox="0 0 520 360">
+<text x="260" y="18" text-anchor="middle" font-family="Fraunces" font-size="12" font-weight="700" fill="#2563eb">INJECTIVE : chaque entrée a sa propre sortie</text>
+<ellipse cx="120" cy="72" rx="55" ry="45" fill="#eff4ff" stroke="#2563eb" stroke-width="1.5"/>
+<circle cx="110" cy="58" r="5" fill="#2563eb"/><circle cx="110" cy="86" r="5" fill="#2563eb"/>
+<defs><marker id="a4" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#e85d26"/></marker></defs>
+<line x1="178" y1="58" x2="280" y2="50" stroke="#e85d26" stroke-width="1.5" marker-end="url(#a4)"/>
+<line x1="178" y1="86" x2="280" y2="86" stroke="#e85d26" stroke-width="1.5" marker-end="url(#a4)"/>
+<ellipse cx="370" cy="72" rx="75" ry="45" fill="#ecfdf0" stroke="#16a34a" stroke-width="1.5"/>
+<circle cx="345" cy="50" r="5" fill="#16a34a"/><circle cx="360" cy="86" r="5" fill="#16a34a"/><circle cx="395" cy="68" r="4" fill="#ccc"/>
+<text x="407" y="71" font-size="9" fill="#999" font-family="DM Sans" font-style="italic">vide</text>
+
+<text x="260" y="145" text-anchor="middle" font-family="Fraunces" font-size="12" font-weight="700" fill="#16a34a">SURJECTIVE : tout F est atteint</text>
+<ellipse cx="120" cy="200" rx="55" ry="45" fill="#eff4ff" stroke="#2563eb" stroke-width="1.5"/>
+<circle cx="100" cy="186" r="5" fill="#2563eb"/><circle cx="120" cy="206" r="5" fill="#2563eb"/><circle cx="105" cy="225" r="5" fill="#2563eb"/>
+<line x1="178" y1="186" x2="280" y2="192" stroke="#e85d26" stroke-width="1.5" marker-end="url(#a4)"/>
+<line x1="178" y1="210" x2="280" y2="192" stroke="#e85d26" stroke-width="1.5" marker-end="url(#a4)"/>
+<line x1="178" y1="225" x2="280" y2="218" stroke="#e85d26" stroke-width="1.5" marker-end="url(#a4)"/>
+<ellipse cx="370" cy="200" rx="75" ry="45" fill="#ecfdf0" stroke="#16a34a" stroke-width="1.5"/>
+<circle cx="350" cy="192" r="5" fill="#16a34a"/><circle cx="360" cy="218" r="5" fill="#16a34a"/>
+
+<text x="260" y="275" text-anchor="middle" font-family="Fraunces" font-size="12" font-weight="700" fill="#7c3aed">BIJECTIVE : correspondance parfaite</text>
+<ellipse cx="120" cy="320" rx="55" ry="32" fill="#f3eeff" stroke="#7c3aed" stroke-width="1.5"/>
+<circle cx="108" cy="310" r="5" fill="#7c3aed"/><circle cx="108" cy="332" r="5" fill="#7c3aed"/>
+<line x1="178" y1="310" x2="280" y2="310" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#a4)"/>
+<line x1="178" y1="332" x2="280" y2="332" stroke="#7c3aed" stroke-width="1.5" marker-end="url(#a4)"/>
+<ellipse cx="370" cy="320" rx="75" ry="32" fill="#f3eeff" stroke="#7c3aed" stroke-width="1.5"/>
+<circle cx="350" cy="310" r="5" fill="#7c3aed"/><circle cx="350" cy="332" r="5" fill="#7c3aed"/>
+</svg>
+</div>
+
+<div class="remember">
+<div class="remember-title">Astuce en dimension finie (espaces de même taille)</div>
+<p style="color:var(--ink-light)">Si E et F ont la <strong>même dimension</strong> (f : Rn vers Rn), alors :<br>
+<strong style="color:var(--ink)">injective = surjective = bijective</strong><br>Il suffit de vérifier une seule des trois !</p>
+</div>
+</div>
+
+<!-- LEÇON 6 : SEV -->
+<div class="lesson" id="lesson-sev">
+<div class="lesson-tag tag-concept">Concept clé</div>
+<h2>📐 Sous-espaces vectoriels</h2>
+<p>Un <strong>sous-espace vectoriel</strong> (SEV), c'est un sous-ensemble de E qui se comporte comme un petit espace vectoriel.</p>
+
+<div class="analogy">
+<div class="analogy-title">Imagine un terrain de foot dans un parc</div>
+<p>Le parc = l'espace E. Le terrain = un sous-espace. Si tu fais des passes (addition) ou dribbles plus vite (multiplication) à l'intérieur du terrain, tu restes dans le terrain.</p>
+</div>
+
+<h3>Les 3 conditions pour être un SEV</h3>
+<div class="example" style="background:var(--blue-soft);border-color:#bbd4ff">
+<div class="example-title" style="color:var(--blue)">Les 3 vérifications</div>
+<div class="example-step"><div class="step-dot" style="background:var(--blue)">1</div><div class="step-text"><strong>Le vecteur nul (0) est dedans</strong></div></div>
+<div class="example-step"><div class="step-dot" style="background:var(--blue)">2</div><div class="step-text"><strong>Stable par addition :</strong> u et v dedans implique u + v dedans</div></div>
+<div class="example-step"><div class="step-dot" style="background:var(--blue)">3</div><div class="step-text"><strong>Stable par multiplication :</strong> u dedans et k un nombre implique k × u dedans</div></div>
+</div>
+
+<h3>Somme et Intersection</h3>
+<div class="schema">
+<div class="schema-title">Schéma : E + F et E inter F</div>
+<svg width="520" height="180" viewBox="0 0 520 180">
+<text x="130" y="18" text-anchor="middle" font-family="Fraunces" font-size="12" font-weight="700" fill="#e85d26">E + F = tout ce qu'on atteint</text>
+<ellipse cx="100" cy="95" rx="65" ry="55" fill="#eff4ff" stroke="#2563eb" stroke-width="2" opacity=".8"/>
+<text x="68" y="80" font-family="DM Sans" font-size="12" font-weight="700" fill="#2563eb">E</text>
+<ellipse cx="160" cy="95" rx="65" ry="55" fill="#ecfdf0" stroke="#16a34a" stroke-width="2" opacity=".8"/>
+<text x="192" y="80" font-family="DM Sans" font-size="12" font-weight="700" fill="#16a34a">F</text>
+<text x="130" y="168" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#6b5344">Les deux réunis</text>
+<line x1="260" y1="25" x2="260" y2="160" stroke="#efe6dc" stroke-width="2" stroke-dasharray="5,5"/>
+<text x="390" y="18" text-anchor="middle" font-family="Fraunces" font-size="12" font-weight="700" fill="#7c3aed">E inter F = en commun</text>
+<ellipse cx="360" cy="95" rx="65" ry="55" fill="#eff4ff" stroke="#2563eb" stroke-width="2" opacity=".5"/>
+<text x="320" y="80" font-family="DM Sans" font-size="12" font-weight="700" fill="#2563eb">E</text>
+<ellipse cx="420" cy="95" rx="65" ry="55" fill="#ecfdf0" stroke="#16a34a" stroke-width="2" opacity=".5"/>
+<text x="458" y="80" font-family="DM Sans" font-size="12" font-weight="700" fill="#16a34a">F</text>
+<ellipse cx="390" cy="95" rx="28" ry="40" fill="#f3eeff" stroke="#7c3aed" stroke-width="2.5"/>
+<text x="390" y="100" text-anchor="middle" font-family="DM Sans" font-size="10" font-weight="700" fill="#7c3aed">E inter F</text>
+</svg>
+</div>
+
+<div class="formula-box"><div class="formula-label">Formule de Grassmann</div><div class="formula-content">dim(E+F) = dim(E) + dim(F) - dim(E inter F)</div></div>
+
+<div class="analogy">
+<div class="analogy-title">Pourquoi le "- dim(E inter F)" ?</div>
+<p>Comme compter des invités : amis de Pierre + amis de Marie, mais les amis en commun comptés <strong>deux fois</strong> → on les retire une fois !</p>
+</div>
+
+<h3>Sous-espaces supplémentaires</h3>
+<div class="key-point">
+<strong>Supplémentaires</strong> = E + F = G (ils remplissent tout) ET E inter F = {0} (ils ne partagent que zéro).<br>On écrit <strong>G = E somme directe F</strong>.
+</div>
+</div>
+
+</section>
+
+<!-- ══════ QCM ══════ -->
+<section id="qcm" class="content-section">
+<div class="qcm-score-bar">
+<div class="score-pill"><div class="score-num" id="score">0/15</div><div class="score-label">Score total</div></div>
+<div class="score-pill"><div class="score-num" id="percentage">0%</div><div class="score-label">Taux de réussite</div></div>
+</div>
+
+<div class="qcm-card" data-question="1"><div class="qcm-head"><span class="qcm-num">Question 1</span><span class="qcm-diff diff-easy">Facile</span></div><div class="qcm-question">Quelle est la condition pour qu'une application linéaire f soit <strong>injective</strong> ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q1" value="a"><label>Ker(f) = {0}</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q1" value="b"><label>Im(f) = F</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q1" value="c"><label>dim(Ker f) = 1</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q1" value="d"><label>f est continue</label></div></div><button class="qcm-submit" onclick="checkAns(1)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="2"><div class="qcm-head"><span class="qcm-num">Question 2</span><span class="qcm-diff diff-easy">Facile</span></div><div class="qcm-question">Le <strong>théorème du rang</strong> dit que :</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q2" value="a"><label>dim(E) = dim(Ker f) x dim(Im f)</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q2" value="b"><label>dim(E) = dim(Ker f) - dim(Im f)</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q2" value="c"><label>dim(E) = dim(Ker f) + dim(Im f)</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q2" value="d"><label>dim(E) = dim(Im f) - dim(Ker f)</label></div></div><button class="qcm-submit" onclick="checkAns(2)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="3"><div class="qcm-head"><span class="qcm-num">Question 3</span><span class="qcm-diff diff-med">Moyen</span></div><div class="qcm-question">f : R3 vers R2 est <strong>surjective</strong>. Quelle est dim(Ker f) ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q3" value="a"><label>0</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q3" value="b"><label>1</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q3" value="c"><label>2</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q3" value="d"><label>3</label></div></div><button class="qcm-submit" onclick="checkAns(3)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="4"><div class="qcm-head"><span class="qcm-num">Question 4</span><span class="qcm-diff diff-easy">Facile</span></div><div class="qcm-question">Pour qu'un sous-ensemble H soit un <strong>sous-espace vectoriel</strong>, il faut :</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q4" value="a"><label>0 dedans, stable par + et par multiplication</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q4" value="b"><label>H non vide et fermé</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q4" value="c"><label>H contient au moins 2 vecteurs</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q4" value="d"><label>Même dimension que E</label></div></div><button class="qcm-submit" onclick="checkAns(4)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="5"><div class="qcm-head"><span class="qcm-num">Question 5</span><span class="qcm-diff diff-med">Moyen</span></div><div class="qcm-question">f : R4 vers R4, dim(Ker f) = 2. Que dire de f ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q5" value="a"><label>Injective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q5" value="b"><label>Surjective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q5" value="c"><label>Ni injective ni surjective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q5" value="d"><label>Bijective</label></div></div><button class="qcm-submit" onclick="checkAns(5)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="6"><div class="qcm-head"><span class="qcm-num">Question 6</span><span class="qcm-diff diff-med">Moyen</span></div><div class="qcm-question">f(x,y) = (x+y, x-y, 2x) est-elle <strong>injective</strong> ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q6" value="a"><label>Non, dimensions différentes</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q6" value="b"><label>Oui, Ker(f) = {(0,0)}</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q6" value="c"><label>Non, pas surjective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q6" value="d"><label>On ne peut pas savoir</label></div></div><button class="qcm-submit" onclick="checkAns(6)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="7"><div class="qcm-head"><span class="qcm-num">Question 7</span><span class="qcm-diff diff-hard">Difficile</span></div><div class="qcm-question">dim(E)=3, dim(F)=2 dans R5. Dimension <strong>minimale</strong> de E inter F ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q7" value="a"><label>0</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q7" value="b"><label>1</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q7" value="c"><label>2</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q7" value="d"><label>3</label></div></div><button class="qcm-submit" onclick="checkAns(7)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="8"><div class="qcm-head"><span class="qcm-num">Question 8</span><span class="qcm-diff diff-med">Moyen</span></div><div class="qcm-question">f(P) = P - P' sur les polynômes de degré ≤ 2. <strong>dim(Im f)</strong> ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q8" value="a"><label>1</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q8" value="b"><label>3</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q8" value="c"><label>2</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q8" value="d"><label>0</label></div></div><button class="qcm-submit" onclick="checkAns(8)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="9"><div class="qcm-head"><span class="qcm-num">Question 9</span><span class="qcm-diff diff-hard">Difficile</span></div><div class="qcm-question">f : Rn vers Rn, f injective. Alors :</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q9" value="a"><label>f peut ne pas être surjective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q9" value="b"><label>f est forcément bijective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q9" value="c"><label>dim(Im f) < n</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q9" value="d"><label>Ker(f) non trivial</label></div></div><button class="qcm-submit" onclick="checkAns(9)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="10"><div class="qcm-head"><span class="qcm-num">Question 10</span><span class="qcm-diff diff-easy">Facile</span></div><div class="qcm-question">L'image d'une application linéaire est toujours :</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q10" value="a"><label>Un sous-espace vectoriel de F</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q10" value="b"><label>Égale à F</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q10" value="c"><label>Un ensemble vide</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q10" value="d"><label>De dimension 1</label></div></div><button class="qcm-submit" onclick="checkAns(10)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="11"><div class="qcm-head"><span class="qcm-num">Question 11</span><span class="qcm-diff diff-med">Moyen</span></div><div class="qcm-question">f(x,y,z) = (x+2z, x+y+z, -x-2z). Cette application est :</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q11" value="a"><label>Bijective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q11" value="b"><label>Injective seulement</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q11" value="c"><label>Ni injective ni surjective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q11" value="d"><label>Surjective seulement</label></div></div><button class="qcm-submit" onclick="checkAns(11)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="12"><div class="qcm-head"><span class="qcm-num">Question 12</span><span class="qcm-diff diff-hard">Difficile</span></div><div class="qcm-question">E et F supplémentaires dans G, dim(G)=5, dim(E)=3. dim(F) = ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q12" value="a"><label>1</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q12" value="b"><label>2</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q12" value="c"><label>3</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q12" value="d"><label>5</label></div></div><button class="qcm-submit" onclick="checkAns(12)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="13"><div class="qcm-head"><span class="qcm-num">Question 13</span><span class="qcm-diff diff-med">Moyen</span></div><div class="qcm-question">f(P) = P(1) sur les polynômes degré ≤ 2. dim(Ker f) = ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q13" value="a"><label>2</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q13" value="b"><label>0</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q13" value="c"><label>1</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q13" value="d"><label>3</label></div></div><button class="qcm-submit" onclick="checkAns(13)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="14"><div class="qcm-head"><span class="qcm-num">Question 14</span><span class="qcm-diff diff-easy">Facile</span></div><div class="qcm-question">Une application linéaire <strong>bijective</strong> possède :</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q14" value="a"><label>Un noyau non trivial</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q14" value="b"><label>Une image plus petite que F</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q14" value="c"><label>Plusieurs antécédents par élément</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q14" value="d"><label>Une application réciproque linéaire</label></div></div><button class="qcm-submit" onclick="checkAns(14)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+
+<div class="qcm-card" data-question="15"><div class="qcm-head"><span class="qcm-num">Question 15</span><span class="qcm-diff diff-hard">Difficile</span></div><div class="qcm-question">f : R7 vers R5, dim(Ker f) = 3. Que dire ?</div><div class="qcm-options"><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q15" value="a"><label>Injective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q15" value="b"><label>Surjective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q15" value="c"><label>Ni injective ni surjective</label></div><div class="qcm-option" onclick="selectOpt(this)"><input type="radio" name="q15" value="d"><label>Bijective</label></div></div><button class="qcm-submit" onclick="checkAns(15)">Vérifier</button><div class="qcm-feedback"><h4></h4><p></p></div></div>
+</section>
+
+<!-- ══════ EXERCICES ══════ -->
+<section id="exercices" class="content-section">
+
+<div class="exercise-card">
+<div class="exercise-head"><span class="exercise-num">Exercice 1 — Noyau, Image, Injectivité</span><span class="exercise-time">30 min</span></div>
+<div class="exercise-statement">Soit f : R3 vers R3 définie par <strong>f(x,y,z) = (x+2z, x+y+z, -x-2z)</strong>.<br>1) Montrer que f est linéaire. 2) Trouver Ker(f). 3) f injective ? surjective ? 4) Trouver Im(f).</div>
+<button class="solution-toggle" onclick="toggleSol(this)">Voir la solution pas à pas</button>
+<div class="solution">
+<h4>Solution détaillée</h4>
+<div class="sol-step"><div class="sol-num">1</div><div class="sol-content"><strong>Linéarité :</strong> Chaque composante est une somme de multiples de x, y, z (pas de carré, pas de constante) → f est linéaire.</div></div>
+<div class="sol-step"><div class="sol-num">2</div><div class="sol-content"><strong>Ker(f)</strong> : on résout f(x,y,z) = (0,0,0) :<br><span class="sol-math">x + 2z = 0 → x = -2z</span><br><span class="sol-math">x + y + z = 0 → -2z + y + z = 0 → y = z</span><br>Solutions : <span class="sol-math">(x,y,z) = z×(-2, 1, 1)</span><br><strong>Base Ker(f) = {(-2,1,1)}, dim = 1</strong></div></div>
+<div class="sol-step"><div class="sol-num">3</div><div class="sol-content"><strong>Injective ?</strong> Ker(f) contient (-2,1,1), pas seulement 0 → <strong>NON</strong><br><strong>Surjective ?</strong> Rang : dim(Im f) = 3-1 = 2 < 3 → <strong>NON</strong></div></div>
+<div class="sol-step"><div class="sol-num">4</div><div class="sol-content"><strong>Im(f)</strong> : images de la base canonique :<br><span class="sol-math">f(1,0,0)=(1,1,-1), f(0,1,0)=(0,1,0), f(0,0,1)=(2,1,-2)</span><br>Le 3ème = 2×premier - deuxième → <strong>Base Im(f) = {(1,1,-1), (0,1,0)}, dim = 2</strong> ✓</div></div>
+</div>
+</div>
+
+<div class="exercise-card">
+<div class="exercise-head"><span class="exercise-num">Exercice 2 — Polynômes et dérivation</span><span class="exercise-time">25 min</span></div>
+<div class="exercise-statement">E = polynômes de degré ≤ 2 (dim = 3). Soit <strong>f(P) = P - P'</strong>.<br>1) Vérifier la linéarité. 2) Calculer f(aX2 + bX + c). 3) Noyau et image ?</div>
+<button class="solution-toggle" onclick="toggleSol(this)">Voir la solution pas à pas</button>
+<div class="solution">
+<h4>Solution détaillée</h4>
+<div class="sol-step"><div class="sol-num">1</div><div class="sol-content"><strong>Linéarité :</strong> La dérivée est linéaire, la soustraction aussi → f est linéaire.</div></div>
+<div class="sol-step"><div class="sol-num">2</div><div class="sol-content">P = aX2 + bX + c, P' = 2aX + b<br><span class="sol-math">f(P) = aX2 + (b-2a)X + (c-b)</span></div></div>
+<div class="sol-step"><div class="sol-num">3</div><div class="sol-content"><strong>Noyau :</strong> f(P) = 0 donne a = 0, b-2a = 0 → b = 0, c-b = 0 → c = 0.<br>Ker(f) = {0}, dim(Ker f) = 0.<br>Par le théorème du rang : <span class="sol-math">dim(Im f) = 3 - 0 = 3</span><br><strong>f est bijective !</strong></div></div>
+</div>
+</div>
+
+<div class="exercise-card">
+<div class="exercise-head"><span class="exercise-num">Exercice 3 — Grassmann et sous-espaces</span><span class="exercise-time">40 min</span></div>
+<div class="exercise-statement">E = polynômes degré ≤ 4 (dim=5).<br><strong>F</strong> = {P : P(1)=0 et P'(1)=0}, <strong>G</strong> = {P : P(2)=0}.<br>1) F et G sont-ils des SEV ? 2) Base et dim de F. 3) Base et dim de G. 4) Base de F inter G. 5) Vérifier Grassmann.</div>
+<button class="solution-toggle" onclick="toggleSol(this)">Voir la solution pas à pas</button>
+<div class="solution">
+<h4>Solution détaillée</h4>
+<div class="sol-step"><div class="sol-num">1</div><div class="sol-content">F et G sont des noyaux d'applications linéaires → ce sont des SEV.</div></div>
+<div class="sol-step"><div class="sol-num">2</div><div class="sol-content">P(1)=0 et P'(1)=0 → (X-1)2 divise P → P = (X-1)2 × Q, deg Q ≤ 2<br><strong>Base F = {(X-1)2, X(X-1)2, X2(X-1)2}, dim(F) = 3</strong></div></div>
+<div class="sol-step"><div class="sol-num">3</div><div class="sol-content">P(2)=0 → (X-2) divise P → P = (X-2) × R, deg R ≤ 3<br><strong>Base G = {(X-2), X(X-2), X2(X-2), X3(X-2)}, dim(G) = 4</strong></div></div>
+<div class="sol-step"><div class="sol-num">4</div><div class="sol-content">F inter G : (X-1)2 et (X-2) divisent P → (X-1)2(X-2) divise P (deg = 3)<br>P = (X-1)2(X-2) × S, deg S ≤ 1<br><strong>Base = {(X-1)2(X-2), X(X-1)2(X-2)}, dim = 2</strong></div></div>
+<div class="sol-step"><div class="sol-num">5</div><div class="sol-content"><span class="sol-math">dim(F+G) = 3 + 4 - 2 = 5 = dim(E)</span><br>Donc <strong>F + G = E</strong> ✓</div></div>
+</div>
+</div>
+
+</section>
+
+</div>
+
+<script>
+const qcmData={1:{c:"a",e:"Injective = Ker(f) contient uniquement le vecteur nul. Le seul element qui donne 0 en sortie, c'est 0 en entree."},2:{c:"c",e:"Le theoreme du rang dit : dim(E) = dim(Ker f) + dim(Im f). Comme un budget : la dimension se repartit entre ce qui se perd (noyau) et ce qui arrive (image)."},3:{c:"b",e:"f surjective → Im(f) = R2, dim(Im f) = 2. Theoreme du rang : 3 = dim(Ker f) + 2, donc dim(Ker f) = 1."},4:{c:"a",e:"Les 3 conditions : (1) le vecteur nul est dedans, (2) stable par addition, (3) stable par multiplication scalaire."},5:{c:"c",e:"dim(Ker f) = 2, pas 0 → pas injective. dim(Im f) = 4-2 = 2 < 4 → pas surjective. Ni l'un ni l'autre."},6:{c:"b",e:"f(x,y) = (0,0,0) donne 2x = 0 → x = 0, puis y = 0. Ker(f) = {(0,0)} → f est injective !"},7:{c:"a",e:"Grassmann : dim(E+F) ≤ 5, donc 3+2-dim(E∩F) ≤ 5, ce qui donne dim(E∩F) ≥ 0. Le minimum est 0."},8:{c:"c",e:"f(P) = P-P'. Pour P=aX2+bX+c : f(P)=aX2+(b-2a)X+(c-b). Ker f donne dim 1, donc dim(Im f) = 3-1 = 2."},9:{c:"b",e:"En meme dimension : injective implique surjective implique bijective. C'est automatique ! Ker(f)={0} → dim(Im f)=n → f surjective → bijective."},10:{c:"a",e:"L'image est TOUJOURS un sous-espace vectoriel de F. Elle peut etre egale a F (surjective) ou plus petite."},11:{c:"c",e:"Ker(f) = Vect{(-2,1,1)}, dim = 1 ≠ 0 → pas injective. dim(Im f) = 3-1 = 2 < 3 → pas surjective."},12:{c:"b",e:"Supplementaires : dim(G) = dim(E) + dim(F) car E∩F = {0}. Donc 5 = 3 + dim(F), dim(F) = 2."},13:{c:"a",e:"Ker f = {P : P(1)=0}, donc (X-1) divise P. Pour deg ≤ 2 : P = (X-1)(aX+b). L'espace des (aX+b) a dim 2."},14:{c:"d",e:"Une bijection lineaire possede une application reciproque qui est elle-meme lineaire. C'est un isomorphisme."},15:{c:"c",e:"dim(Ker f)=3 ≠ 0 → pas injective. dim(Im f)=7-3=4 < 5=dim(R5) → pas surjective."}};
+
+let score=0,answered=new Set();
+
+function showSection(id,btn){
+document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function scrollToLesson(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+function selectOpt(el){el.querySelector('input[type="radio"]').checked=true}
+
+function checkAns(n){
+if(answered.has(n))return;
+const card=document.querySelector('.qcm-card[data-question="'+n+'"]');
+const sel=card.querySelector('input[type="radio"]:checked');
+if(!sel){alert('Choisis une reponse !');return}
+answered.add(n);
+const d=qcmData[n],fb=card.querySelector('.qcm-feedback'),btn=card.querySelector('.qcm-submit');
+btn.disabled=true;
+card.querySelectorAll('.qcm-option').forEach(o=>o.style.pointerEvents='none');
+if(sel.value===d.c){
+sel.closest('.qcm-option').classList.add('correct');
+fb.classList.add('correct');
+fb.querySelector('h4').textContent='Bravo Insiyah ! Bonne reponse !';
+score++;
+}else{
+sel.closest('.qcm-option').classList.add('incorrect');
+card.querySelector('input[value="'+d.c+'"]').closest('.qcm-option').classList.add('correct');
+fb.classList.add('incorrect');
+fb.querySelector('h4').textContent='Pas tout a fait... Voici l\'explication :';
+}
+fb.querySelector('p').textContent=d.e;
+fb.classList.add('show');
+updateScore();
+}
+
+function updateScore(){
+const t=Object.keys(qcmData).length;
+document.getElementById('score').textContent=score+'/'+t;
+document.getElementById('percentage').textContent=Math.round(score/t*100)+'%';
+}
+
+function toggleSol(btn){
+const sol=btn.nextElementSibling;
+sol.classList.toggle('active');
+if(sol.classList.contains('active')){btn.textContent='Masquer la solution';btn.style.background='linear-gradient(135deg,#16a34a,#22c55e)'}
+else{btn.textContent='Voir la solution pas a pas';btn.style.background=''}
+}
+
+document.addEventListener('DOMContentLoaded',updateScore);
+</script>
+</body>
+</html>
